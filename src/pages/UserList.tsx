@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const UserListContainer = styled.div`
   padding: 20px;
@@ -19,11 +20,11 @@ function UserList() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10); // Set the number of users per page
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortKey, setSortKey] = useState<'name' | 'username'>('name'); // Default sorting key
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortKey, setSortKey] = useState<"name" | "username">("name"); // Default sorting key
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
       .then((data: User[]) => setUsers(data));
   }, []);
@@ -63,7 +64,7 @@ function UserList() {
         <label>Sort by:</label>
         <select
           value={sortKey}
-          onChange={(e) => setSortKey(e.target.value as 'name' | 'username')}
+          onChange={(e) => setSortKey(e.target.value as "name" | "username")}
         >
           <option value="name">Name</option>
           <option value="username">Username</option>
@@ -73,6 +74,7 @@ function UserList() {
         {filteredUsers.map((user: User) => (
           <li key={user.id}>
             <p>Name: {user.name}</p>
+            <p><Link to={`/user-detail/${user.id}`}>{user.name}</Link></p>
             <p>Email: {user.email}</p>
             <p>Username: {user.username}</p>
             <p>Website: {user.website}</p>

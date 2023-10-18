@@ -8,7 +8,7 @@ import UserDetailPage from "./pages/UserDetail";
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/user-list", element: <UserListPage /> },
-  { path: "/user-detail", element: <UserDetailPage /> },
+  { path: "/user-detail/:userId", element: <UserDetailPage /> },
 ]);
 
 function App() {
