@@ -31,19 +31,34 @@ function UserDetailPage() {
   const [userPhoto, setUserPhoto] = useState<string>('');
 
   useEffect(() => {
-    // Fetch user details
-    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
-      .then((response) => response.json())
-      .then((data: User) => setUser(data));
+    const fetchUserDetails = async () => {
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+        const data: User = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
 
-    // Fetch user's profile picture
-    fetch(`https://jsonplaceholder.typicode.com/users/${userId}/photos`)
-      .then((response) => response.json())
-      .then((photos: Photo[]) => setUserPhoto(photos[0]?.url || ''));
+    const fetchUserPhoto = async () => {
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/photos`);
+        const photos: Photo[] = await response.json();
+        setUserPhoto(photos[0]?.url || '');
+      } catch (error) {
+        console.error('Error fetching user photo:', error);
+      }
+    };
+
+    fetchUserDetails();
+    fetchUserPhoto();
   }, [userId]);
 
   return (
     <UserListContainer>
+      <Link to="/user-list">Back to User List</Link>
+
       <h2>User Details</h2>
       {user ? (
         <div>
@@ -56,7 +71,6 @@ function UserDetailPage() {
       ) : (
         <p>Loading user details...</p>
       )}
-      <Link to="/user-list">Back to User List</Link>
     </UserListContainer>
   );
 }

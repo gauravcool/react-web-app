@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import styled from "styled-components";
 
 interface Todo {
-    userId: number;
+    username: string;
     id: number;
-    title: string;
-    completed: boolean;
+    name: string;
+    email: string;
   }
+
+  const UserListContainer = styled.div`
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+`;
 
 function HomePage() {
 
@@ -14,7 +21,7 @@ function HomePage() {
     const [newTodo, setNewTodo] = useState('');
 
     useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/todos')
+        fetch('https://jsonplaceholder.typicode.com/users')
             .then((response) => response.json())
             .then((data) => setTodos(data));
         }, []);
@@ -22,10 +29,10 @@ function HomePage() {
     function addTodo() {
         // Create a new todo object
         const newTodoObj = {
-            userId: 1,
+            username: newTodo,
             id: todos.length + 1,
-            title: newTodo,
-            completed: false,
+            name: newTodo,
+            email: newTodo,
         };
         
         // Update the state
@@ -46,9 +53,11 @@ function HomePage() {
     }
       
 
-    return <>
+    return <UserListContainer>
         <div>
             <h1>Todo List</h1>
+            <Link to="/user-list">User List Page</Link>
+            <br /><br />
             <input
             type="text"
             placeholder="Add a new todo"
@@ -60,14 +69,14 @@ function HomePage() {
             <ul>
             {todos.map((todo) => (
                 <li key={todo.id}>
-                {todo.title}
-                <button onClick={() => editTodo(todo.id)}>Edit</button>
+                {todo.name}
+                {/* <button onClick={() => editTodo(todo.id)}>Edit</button> */}
                 <button onClick={() => deleteTodo(todo.id)}>Delete</button>
                 </li>
             ))}
             </ul>
         </div>
-    </>;
+    </UserListContainer>;
 }
 
 export default HomePage;
