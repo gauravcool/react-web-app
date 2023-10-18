@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 function UserList() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(5); // Set the number of users per page
+  const [usersPerPage] = useState(10); // Set the number of users per page
   const [searchTerm, setSearchTerm] = useState('');
   const [sortKey, setSortKey] = useState('name'); // Default sorting key
 
@@ -35,6 +35,27 @@ function UserList() {
 
   return (
     <div>
+      <div>
+        <label htmlFor="search">Search by Name:</label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Enter a name to search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      <ul>
+        {filteredUsers.map((user: any) => (
+          <li key={user.id}>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Username: {user.username}</p>
+            <p>Website: {user.website}</p>
+          </li>
+        ))}
+      </ul>
+
       <ul>
         {filteredUsers.map((user: any) => (
             <li key={user.id}>
